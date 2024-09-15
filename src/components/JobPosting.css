@@ -1,0 +1,85 @@
+.job-posting-container {
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.job-posting-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.job-posting-form label {
+  margin-bottom: 10px;
+}
+
+.job-posting-form input,
+.job-posting-form textarea {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.save-button {
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #28a745;
+  color: white;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.save-button:hover {
+  background-color: #218838;
+}
+
+.delete-button {
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #dc3545;
+  color: white;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.delete-button:hover {
+  background-color: #c82333;
+}
+
+.status-message {
+  margin-top: 10px;
+  color: #28a745;
+}
+
+.error-message {
+  color: #dc3545;
+}
+
+.loading {
+  color: #007bff;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .job-posting-container {
+    padding: 15px;
+  }
+
+  .job-posting-form input,
+  .job-posting-form textarea {
+    padding: 6px;
+  }
+
+  .save-button,
+  .delete-button {
+    padding: 8px;
+    font-size: 14px;
+  }
+}
