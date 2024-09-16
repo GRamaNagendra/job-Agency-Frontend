@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 //import './Login.css'; // Assuming you will put the CSS styles in a separate file
 
-const Home = () => {
+const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
@@ -27,9 +27,7 @@ const Home = () => {
 
     const handleGoogleLogin = () => {
         // Store the current full URL in a cookie
-        const currentFullUrl = `http://localhost:3000${window.location.pathname}`;
-        console.log('Current Full URL:', currentFullUrl);
-        document.cookie = `originalUrl=${encodeURIComponent(currentFullUrl)}; path=/`;
+       
 
         // Redirect to Google OAuth2
         window.location.href = 'http://localhost:8080/oauth2/authorization/google';
@@ -70,4 +68,4 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default Login;

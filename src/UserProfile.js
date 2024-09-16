@@ -68,7 +68,7 @@ const Profile = () => {
       <div className="profile-details">
         <p><strong>Name:</strong> {profile.name}</p>
         <p><strong>Email:</strong> {profile.email}</p>
-        <p><strong>Role:</strong> {profile.role}</p>
+        <p><strong>Role:</strong> {profile.Role}</p>
         <p><strong>Mobile Number:</strong> {profile.mobileNumber || 'Not set'}</p>
         <div className="profile-picture">
           <img 
