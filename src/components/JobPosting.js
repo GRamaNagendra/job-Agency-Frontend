@@ -23,7 +23,7 @@ const JobPosting = () => {
           const response = await axios.get(`http://localhost:8080/job-postings/${id}`, {
             withCredentials: true,
           });
-          const data = response.data.data; // Adjusted based on your API response structure
+          const data = response.data.data;
           setJobPosting(data);
           setTitle(data.title || '');
           setDescription(data.description || '');
@@ -42,7 +42,7 @@ const JobPosting = () => {
 
   const handleSave = async () => {
     if (!title || !description || !companyName) {
-      alert('Title, Description, and Company Name are required.');
+      setError('Title, Description, and Company Name are required.');
       return;
     }
 
@@ -86,17 +86,21 @@ const JobPosting = () => {
 
   const handleApply = async () => {
     const applicantEmail = prompt('Enter your email address to apply:');
-    if (applicantEmail) {
-      try {
-        await axios.post(`http://localhost:8080/job-postings/${id}/apply`, applicantEmail, {
+    if (!applicantEmail) return;
+
+    try {
+      await axios.post(
+        `http://localhost:8080/job-postings/${id}/apply`,
+        { email: applicantEmail }, // Fix: sending email as object
+        {
           headers: { 'Content-Type': 'application/json' },
           withCredentials: true,
-        });
-        alert('Application submitted successfully.');
-      } catch (err) {
-        alert('Failed to submit application.');
-        console.error(err);
-      }
+        }
+      );
+      alert('Application submitted successfully.');
+    } catch (err) {
+      alert('Failed to submit application.');
+      console.error(err);
     }
   };
 

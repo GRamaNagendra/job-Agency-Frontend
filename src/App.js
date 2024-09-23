@@ -9,15 +9,17 @@ import Home from './Home';
 import JobPosting from './components/JobPosting';
 import JobPostingList from './components/JobPostingList';
 import AdminDashboard from './components/Admin';
-
+import Logout from './Logout';
+import Layout from './Layout'
 const App = () => {
   return (
     <Router>
       <UserProvider>
         <Routes>
+        <Route path="/" element={<Layout />} >
           <Route path="/home2" element={<Home />} />
           <Route path="/login" element={<GoogleLoginButton />} />
-
+          <Route path="/logout" element={<Logout />} />
           <Route 
             path="/profile" 
             element={<PrivateRoute element={<UserProfile />} allowedRoles={['ROLE_USER', 'ROLE_ADMIN']} />} 
@@ -46,7 +48,7 @@ const App = () => {
           {/* Fallback Routes */}
           <Route path="/403" element={<div>403 Forbidden</div>} />
           <Route path="/404" element={<div>Page not found</div>} />
-         
+         </Route>
         </Routes>
       </UserProvider>
     </Router>

@@ -1,32 +1,25 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 
-const Logout = () => {
-    const navigate = useNavigate();
+const LogoutPage = () => {
+  const handleLogout = () => {
+    // Clear any session-related cookies (if necessary)
+    document.cookie = 'redirectUrl=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    
+    // Redirect to backend logout endpoint
+    window.location.href = 'http://localhost:8080/logout';  // Adjust the URL to your actual logout endpoint
+  };
 
-    const handleLogout = () => {
-        fetch('http://localhost:8080/logout', {
-            method: 'POST',
-            credentials: 'include'
-        })
-        .then(response => {
-            if (response.ok) {
-                navigate('/login');  // Redirect to login page on success
-            } else {
-                throw new Error('Network response was not ok');
-            }
-        })
-        .catch(error => {
-            console.error('Error logging out:', error);
-        });
-    };
-
-    return (
-        <div>
-            <h2>Logout</h2>
-            <button onClick={handleLogout}>Logout</button>
-        </div>
-    );
+  return (
+    <div className="logout-container">
+      <div className="logout-box">
+        <h1 className="logout-title">Logout Successful</h1>
+        <p className="logout-text">You have been successfully logged out. Click below to return to the homepage.</p>
+        <button className="logout-btn" onClick={handleLogout}>
+          Logout
+        </button>
+      </div>
+    </div>
+  );
 };
 
-export default Logout;
+export default LogoutPage;
