@@ -1,85 +1,345 @@
-.job-posting-container {
-  max-width: 600px;
-  margin: auto;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-}
 
-.job-posting-form {
-  display: flex;
-  flex-direction: column;
-}
-
-.job-posting-form label {
-  margin-bottom: 10px;
-}
-
-.job-posting-form input,
-.job-posting-form textarea {
-  width: 100%;
-  padding: 8px;
-  margin-top: 5px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.save-button {
-  padding: 10px;
-  border: none;
-  border-radius: 4px;
-  background-color: #28a745;
-  color: white;
-  cursor: pointer;
-  margin-top: 10px;
-}
-
-.save-button:hover {
-  background-color: #218838;
-}
-
-.delete-button {
-  padding: 10px;
-  border: none;
-  border-radius: 4px;
-  background-color: #dc3545;
-  color: white;
-  cursor: pointer;
-  margin-top: 10px;
-}
-
-.delete-button:hover {
-  background-color: #c82333;
-}
-
-.status-message {
-  margin-top: 10px;
-  color: #28a745;
-}
-
-.error-message {
-  color: #dc3545;
-}
-
-.loading {
-  color: #007bff;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
   .job-posting-container {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 25px;
+    padding: 40px;
+    width: 90%;
+    max-width: 900px;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+    animation: drop-in 1s ease-out;
+  }
+  
+  /* Drop-in Animation for Container */
+  @keyframes drop-in {
+    from {
+      transform: translateY(-50px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  /* Header with Animation */
+  .job-posting-header {
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-align: center;
+    color: #007BFF; /* Updated color for Edit Job Posting title */
+    margin-bottom: 30px;
+    position: relative;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+  }
+  
+  /* Form Design */
+  .job-posting-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  
+  .job-posting-form label {
+    color: #444;
+    font-weight: 600;
+    margin-bottom: 5px;
+    display: inline-block;
+  }
+  
+  .input-field,
+  .textarea-field {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    background-color: rgba(255, 255, 255, 0.8);
+    transition: all 0.3s ease;
+    font-size: 1.1rem;
+  }
+  
+  .input-field:hover,
+  .textarea-field:hover {
+    border-color: #007BFF;
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.2);
+  }
+  
+  .input-field:focus,
+  .textarea-field:focus {
+    border-color: #ff416c;
+    box-shadow: 0 0 15px rgba(255, 65, 108, 0.6);
+  }
+  
+  .textarea-field {
+    grid-column: 1 / span 2;
+    height: 120px;
+    resize: none;
+  }
+  
+  /* .job-posting-container button Styling */
+  .job-posting-container button {
+    grid-column: 1 / span 2;
+    padding: 15px 0;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    background: linear-gradient(90deg, #11998e, #38ef7d);
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .job-posting-container button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(56, 239, 125, 0.5);
+  }
+  
+  .job-posting-container button:active {
+    transform: scale(0.98);
+  }
+  
+  .save-.job-posting-container button {
+    background: linear-gradient(90deg, #007BFF, #00C6FF);
+  }
+  
+  .save-.job-posting-container button:hover {
+    box-shadow: 0 10px 20px rgba(0, 123, 255, 0.5);
+  }
+  
+  .delete-.job-posting-container button {
+    background: linear-gradient(90deg, #ff416c, #ff4b2b);
+  }
+  
+  .delete-.job-posting-container button:hover {
+    box-shadow: 0 10px 20px rgba(255, 65, 108, 0.5);
+  }
+  
+  .apply-.job-posting-container button {
+    background: #ff5722; /* Updated background color for Apply for Job .job-posting-container button to orange */
+  }
+  
+  .apply-.job-posting-container button:hover {
+    box-shadow: 0 10px 20px rgba(255, 87, 34, 0.5);
+  }
+  
+  /* Success/Error Messages */
+  .status-message {
+    grid-column: 1 / span 2;
+    margin-top: 20px;
     padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 1.1rem;
+    color: rgb(13, 198, 75);
   }
-
-  .job-posting-form input,
-  .job-posting-form textarea {
-    padding: 6px;
+  
+  .status-message.success {
+    background-color: #28a745;
   }
-
-  .save-button,
-  .delete-button {
+  
+  .status-message.error {
+    background-color: #dc3545;
+  }
+  
+  /* Error State */
+  .error-message {
+    font-size: 1.1rem;
+    color: #ff4b2b;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 20px;
+    animation: shake 0.4s ease;
+  }
+  
+  @keyframes shake {
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    25% {
+      transform: translateX(-10px);
+    }
+    75% {
+      transform: translateX(10px);
+    }
+  }
+  
+  /* Loading Spinner */
+  .loading {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #007BFF;
+  }
+  
+  /* Floating Circles in Background */
+  .job-posting-container::before,
+  .job-posting-container::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 65, 108, 0.4);
+    animation: float 10s infinite ease-in-out;
+  }
+  
+  .job-posting-container::before {
+    width: 300px;
+    height: 300px;
+    top: -150px;
+    left: -150px;
+  }
+  
+  .job-posting-container::after {
+    width: 250px;
+    height: 250px;
+    bottom: -125px;
+    right: -125px;
+  }
+  
+  @keyframes float {
+    0% {
+      transform: translate(0, 0);
+    }
+    50% {
+      transform: translate(30px, -30px);
+    }
+    100% {
+      transform: translate(0, 0);
+    }
+  }
+  
+  /* Glowing Borders on Input Fields */
+  .input-field:hover {
+    border: 2px solid rgba(255, 65, 108, 0.8);
+  }
+  
+  .textarea-field:hover {
+    border: 2px solid rgba(119, 240, 183, 0.8);
+  }
+  
+  /* Placeholder Styling */
+  ::placeholder {
+    color: #999;
+    font-style: italic;
+    opacity: 0.8;
+  }
+  
+  /* Custom Scrollbar */
+  textarea::-webkit-scrollbar {
+    width: 12px;
+  }
+  
+  textarea::-webkit-scrollbar-thumb {
+    background-color: #007BFF;
+    border-radius: 6px;
+    box-shadow: inset 0 0 5px rgba(0, 123, 255, 0.4);
+  }
+  
+  textarea::-webkit-scrollbar-track {
+    background-color: #f0f0f0;
+  }
+  
+  /* Responsive Design */
+  @media screen and (max-width: 768px) {
+    .job-posting-form {
+      grid-template-columns: 1fr;
+    }
+  
+    .job-posting-container button {
+      grid-column: 1;
+    }
+  
+    .job-posting-header {
+      font-size: 2rem;
+    }
+  
+    .textarea-field {
+      height: 100px;
+    }
+  }
+  
+  /* Additional Transitions & Hover Effects */
+  .job-posting-container button:hover,
+  .input-field:hover,
+  .textarea-field:hover {
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .job-posting-container button:hover::before {
+    transform: scale(1.05);
+    filter: brightness(1.2);
+  }
+  .input-field {
+    /* existing styles */
+    border: 1px solid #ccc; /* default border */
+    border-radius: 4px; /* rounded corners */
+    padding: 10px; /* padding inside the input */
+    width: 100%; /* full width */
+  }
+  
+  .input-field.error {
+    border: 1px solid red; /* red border on error */
+  }
+  
+  .textarea-field {
+    /* existing styles */
+    border: 1px solid #ccc; /* default border */
+    border-radius: 4px; /* rounded corners */
+    padding: 10px; /* padding inside the textarea */
+    width: 100%; /* full width */
+  }
+  
+  .textarea-field.error {
+    border: 1px solid red; /* red border on error */
+  }
+  
+  /* Optional additional styles for validation messages */
+  .validation-errors {
+    margin-bottom: 20px; /* Space below the error messages */
+  }
+  
+  .validation-error {
+    color: red; /* Red color for error messages */
+    font-weight: bold;
+  }
+  .job-management-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+  }
+  
+  .filter-sort {
+    margin-bottom: 20px;
+  }
+  
+  .job-list table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .job-list th, .job-list td {
+    border: 1px solid #ddd;
     padding: 8px;
-    font-size: 14px;
   }
-}
+  
+  .job-list th {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .job-form {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  
+  .error {
+    color: red;
+    font-size: 0.8em;
+  }
+  

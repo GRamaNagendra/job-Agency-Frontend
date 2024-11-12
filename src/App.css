@@ -1,3 +1,36 @@
+/* Active link styling */
+.nav-link-custom.active {
+  background-color: #ff6600; /* Bright orange background for active links */
+  color: #ffffff; /* White text */
+  border-radius: 5px; /* Rounded corners */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Slight shadow to highlight the active link */
+  font-weight: bold; /* Emphasize the active link text */
+  transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+}
+
+/* Active link with hover for consistency */
+.nav-link-custom.active:hover {
+  background-color: #ff851b; /* Slightly lighter orange on hover */
+  color: #ffffff; /* Keep text white */
+}
+
+/* Optional for additional visual feedback */
+.nav-link-custom.active .nav-icon {
+  color: #ffffff; /* Ensure icon color matches the active state */
+  transform: scale(1.1); /* Slightly enlarge the icon for emphasis */
+  transition: transform 0.2s ease; /* Smooth scale animation */
+}
+
+
+.navbar-profile-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-left: 10px;
+  object-fit: cover;
+  border: 2px solid #007bff; /* Optional border for the profile picture */
+  cursor: pointer; /* Indicate that the image is clickable */
+}
 
 
 .navbar-custom {
@@ -126,15 +159,6 @@
   background-color: #00254d; /* Darker blue when scrolled */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
-
-.footer-custom {
-  background-color: #003366; /* Deep blue */
-  color: white; /* Keep white for footer text */
-  padding: 1rem;
-  text-align: center;
-  font-size: 0.9rem;
-  border-top: 3px solid #ff6600; /* Orange border */
-}
 /* NavDropdown Title Styling */
 .navbar-nav .dropdown-toggle {
   color: #ffffff; /* White text for dropdown toggle */
@@ -154,12 +178,3 @@
   font-size: 1.5rem; /* Consistent icon size */
 }
 
-/* Content Area */
-.content {
-  padding: 5px;
- 
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  margin: 5px auto;
-  max-width:100%;
-}

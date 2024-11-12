@@ -1,17 +1,26 @@
 // src/App.js
-import React from 'react';
+import React,{useEffect} from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { UserProvider } from './UserContext';
 import PrivateRoute from './PrivateRoute';
 import GoogleLoginButton from './Login';
 import UserProfile from './UserProfile';
-import Home from './Home';
+import Home from './Home/Home';
 import JobPosting from './components/JobPosting';
 import JobPostingList from './components/JobPostingList';
-import AdminDashboard from './components/Admin';
+import AdminDashboard from './Admin/Admin';
 import Logout from './Logout';
-import Layout from './Layout'
+import Layout from './Layout';
+import ContactUs from './contact';
+import AboutUs from './about';
+import Feedback from './Home/Feedback';
+import NotificationPage from './Notification';
+
+import Notification2 from './Notification2';
+
+
 const App = () => {
+ 
   return (
     <Router>
       <UserProvider>
@@ -20,6 +29,10 @@ const App = () => {
           <Route path="/home2" element={<Home />} />
           <Route path="/login" element={<GoogleLoginButton />} />
           <Route path="/logout" element={<Logout />} />
+          <Route path="/Contact" element={<ContactUs />} />
+          <Route path="/about" element={<AboutUs />} />
+          <Route path="/feedback" element={<Feedback />} />
+          <Route path="/NOtifications" element={<NotificationPage />} />
           <Route 
             path="/profile" 
             element={<PrivateRoute element={<UserProfile />} allowedRoles={['ROLE_USER', 'ROLE_ADMIN']} />} 
@@ -28,7 +41,7 @@ const App = () => {
             path="/admin" 
             element={<PrivateRoute element={<AdminDashboard />} allowedRoles={['ROLE_ADMIN']} />} 
           />
-          <Route 
+          {/* <Route 
             path="/job-postings" 
             element={<PrivateRoute element={<JobPostingList />} allowedRoles={['ROLE_USER', 'ROLE_ADMIN']} />} 
           />
@@ -43,12 +56,31 @@ const App = () => {
           <Route 
             path="/job-postings/apply/:id" 
             element={<PrivateRoute element={<JobPosting />} allowedRoles={['ROLE_USER']} />} 
-          />
+          /> */}
 
+         <Route 
+            path="/job-postings" 
+           element={<JobPostingList />} 
+          />
+          <Route 
+            path="/job-postings/create" 
+             element={<JobPosting />} 
+          />
+          
+          <Route 
+            path="/job-postings/edit/:id" 
+            element={<JobPosting />} 
+          />
+          <Route 
+            path="/job-postings/apply/:id" 
+           element={<JobPosting />} 
+          />
+          
           {/* Fallback Routes */}
           <Route path="/403" element={<div>403 Forbidden</div>} />
           <Route path="/404" element={<div>Page not found</div>} />
-         </Route>
+           <Route path="/n2" element={<Notification2/>} />
+          </Route>
         </Routes>
       </UserProvider>
     </Router>

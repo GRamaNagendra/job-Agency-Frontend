@@ -1,25 +1,43 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-const LogoutPage = () => {
-  const handleLogout = () => {
-    // Clear any session-related cookies (if necessary)
-    document.cookie = 'redirectUrl=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-    
-    // Redirect to backend logout endpoint
-    window.location.href = 'http://localhost:8080/logout';  // Adjust the URL to your actual logout endpoint
-  };
+const Logout = () => {
+    const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
-  return (
-    <div className="logout-container">
-      <div className="logout-box">
-        <h1 className="logout-title">Logout Successful</h1>
-        <p className="logout-text">You have been successfully logged out. Click below to return to the homepage.</p>
-        <button className="logout-btn" onClick={handleLogout}>
-          Logout
-        </button>
-      </div>
-    </div>
-  );
+    const handleLogout = async () => {
+        const confirmLogout = window.confirm('Are you sure you want to logout?');
+        if (!confirmLogout) return;
+
+        setIsLoading(true);
+        try {
+            // Call the logout API endpoint
+            await axios.post('http://localhost:8080/admin/logout', {}, { withCredentials: true });
+
+            // Clear any stored user information
+            localStorage.removeItem('user');
+
+            // Redirect to login page
+            navigate('/login?logout=true'); // Indicate logout success
+        } catch (error) {
+            setErrorMessage('Logout failed. Please try again.'); // Set error message
+            console.error('Logout failed:', error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    return (
+        <div>
+            <h2>Are you sure you want to logout?</h2>
+            {errorMessage && <p className="error">{errorMessage}</p>}
+            <button onClick={handleLogout} disabled={isLoading}>
+                {isLoading ? 'Logging out...' : 'Logout'}
+            </button>
+        </div>
+    );
 };
 
-export default LogoutPage;
+export default Logout;

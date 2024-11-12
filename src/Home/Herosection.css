@@ -1,7 +1,13 @@
+
 .enhanced-container {
     display: flex;
     width: 100%;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
     background: linear-gradient(135deg, #ff8a00, #ff5722);
+    background: linear-gradient(135deg, #6a5acd, #00aaff);
+
+
+  
     color: white;
     border-radius: 10px;
     overflow: hidden;
@@ -10,6 +16,12 @@
     transition: transform 0.3s ease;
     padding: 20px; /* Ensure there’s space around the content */
     box-sizing: border-box; /* Ensure padding does not affect width */
+
+
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 1.1rem;
+
   }
   
   .enhanced-container:hover {
@@ -24,7 +36,9 @@
     position: relative;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.3)),
                 radial-gradient(circle at top left, rgba(255, 255, 255, 0.2), transparent);
-    display: flex;
+                
+
+                display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -34,9 +48,10 @@
   }
   
   .left-section h2 {
-    font-size: 2.1em;
+    font-size: 3.2em;
     margin-bottom: 10px;
     font-weight: bold;
+    color:#fff
   }
   
   .left-section p {
@@ -55,22 +70,30 @@
     box-sizing: border-box;
   }
   
-  h1 {
-    font-size: 3em;
+  .enhanced-container p {
+    color:rgb(114, 18, 223);
+   
+    margin-bottom: 0.2rem;
+    text-align: center;
+    font-weight: bold;
+    padding: 1rem 1rem;
+    z-index: 1000;
+    box-shadow: rgba(205, 96, 13, 0.05) 0px 0px 0px 40px, rgb(13, 104, 239) 0px 0px 0px 1px inset;
+     font-size: 1.5em;
     margin-bottom: 15px;
     line-height: 1.2;
-    background: linear-gradient(90deg, #ffffff, #fbc02d);
-    -webkit-background-clip: text;
-    color: transparent;
-  }
+    }
   
-  p {
-    font-size: 1.3em;
-    margin-bottom: 20px;
+  .right-section p {
+    font-size: 1.4em;
+    margin: 5px 0;
+    margin-left:29px ;
     color: #f8f8f8;
     line-height: 1.5;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
   }
+
+  
   
   .highlight-text {
     background-color: #ffeb3b;
@@ -129,6 +152,7 @@
   /* Button Styles */
   .cta-button {
     margin-top: 20px;
+    margin-left: 70%;
     padding: 15px 30px;
     background-color: #003366;
     color: white;
@@ -192,11 +216,11 @@
       padding: 40px;
     }
   
-    h1 {
+    .enhanced-container h1 {
       font-size: 2.5em;
     }
   
-    p {
+    .enhanced-container p {
       font-size: 1.1em;
     }
   
@@ -222,7 +246,7 @@
       font-size: 2em;
     }
   
-    p {
+    .enhanced-container  p {
       font-size: 1em;
     }
   
@@ -230,4 +254,20 @@
       height: 60px;
     }
   }
+  
+  .hsh1{
+   
+    color: #fff;
+   
+    margin-bottom: 0.2rem;
+    text-align: center;
+    font-weight: bold;
+    padding: 1rem 1rem;
+    z-index: 1000;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    font-size: 3em;
+    margin-bottom: 15px;
+    line-height: 1.2;
+   
+}
   

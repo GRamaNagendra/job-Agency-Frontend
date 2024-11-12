@@ -1,0 +1,161 @@
+import React from 'react';
+import './AboutUs.css';
+
+const Footer = () => {
+    return (
+        <div className="about-us">
+            <header className="hero-section">
+                <h1 className="hero-title">Transforming Job Opportunities</h1>
+                <h2 className="hero-subtitle">Empowering the Future</h2>
+                <p className="hero-paragraph">
+                    We are dedicated to transforming the job market to meet the evolving needs of both job seekers and employers.
+                </p>
+                <a href="#" className="btn">Get Started</a>
+            </header>
+
+            <section id="mission" className="section-bg">
+                <h2>Our Mission</h2>
+                <p>Our mission is to provide innovative solutions that bridge the gap between job seekers and employers. We aim to:</p>
+                <ul>
+                    <li>Enhance the job search experience.</li>
+                    <li>Provide valuable resources for career development.</li>
+                    <li>Facilitate meaningful connections.</li>
+                    <li>Support workforce development initiatives.</li>
+                </ul>
+            </section>
+
+            <section id="team" className="section-bg">
+                <h2>Meet Our Team</h2>
+                <div className="d-flex flex-wrap justify-content-center">
+                    <div className="profile-card">
+                        <img src="https://via.placeholder.com/120" alt="John Doe" />
+                        <div className="profile-name">John Doe</div>
+                        <div className="profile-role">CEO</div>
+                        <div className="profile-description">John leads the company with a vision for innovation and growth.</div>
+                    </div>
+                    <div className="profile-card">
+                        <img src="https://via.placeholder.com/120" alt="Jane Smith" />
+                        <div className="profile-name">Jane Smith</div>
+                        <div className="profile-role">CTO</div>
+                        <div className="profile-description">Jane is responsible for the technology strategy and implementation.</div>
+                    </div>
+                    <div className="profile-card">
+                        <img src="https://via.placeholder.com/120" alt="Alice Johnson" />
+                        <div className="profile-name">Alice Johnson</div>
+                        <div className="profile-role">HR Manager</div>
+                        <div className="profile-description">Alice focuses on talent acquisition and employee engagement.</div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="image-grid">
+                <h2>Image Gallery</h2>
+                <div className="image-grid">
+                    <img src="https://via.placeholder.com/200" alt="Gallery Image 1" />
+                    <img src="https://via.placeholder.com/200" alt="Gallery Image 2" />
+                    <img src="https://via.placeholder.com/200" alt="Gallery Image 3" />
+                    <img src="https://via.placeholder.com/200" alt="Gallery Image 4" />
+                    <img src="https://via.placeholder.com/200" alt="Gallery Image 5" />
+                    <img src="https://via.placeholder.com/200" alt="Gallery Image 6" />
+                </div>
+            </section>
+
+            <section id="admin-details">
+                <h2>Admin Details</h2>
+                <div className="admin-details">
+                    <div className="admin-photo">
+                        <img src="https://via.placeholder.com/150" alt="Admin Photo" />
+                    </div>
+                    <div className="admin-info">
+                        <div className="admin-name">Michael Brown</div>
+                        <div className="admin-role">Chief Administrator</div>
+                        <div className="admin-achievements">
+                            <ul>
+                                <li>Over 10 years of experience in administration.</li>
+                                <li>Expert in team management and operational efficiency.</li>
+                                <li>Led successful initiatives that increased productivity by 30%.</li>
+                                <li>Proficient in various project management tools.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="testimonials">
+                <h2>What Our Users Say</h2>
+                <div className="testimonial">
+                    <p>"This platform has completely transformed my job search experience. I found my dream job!"</p>
+                    <p>- Alex T.</p>
+                </div>
+                <div className="testimonial">
+                    <p>"An incredible resource for both job seekers and employers. Highly recommend!"</p>
+                    <p>- Jamie R.</p>
+                </div>
+            </section>
+
+            <section id="resources">
+                <h2>Resources</h2>
+                <div className="resource-link">
+                    <a href="#">Career Development Guide</a>
+                </div>
+                <div className="resource-link">
+                    <a href="#">Resume Writing Tips</a>
+                </div>
+                <div className="resource-link">
+                    <a href="#">Interview Preparation Checklist</a>
+                </div>
+                <div className="resource-link">
+                    <a href="#">Networking Strategies</a>
+                </div>
+            </section>
+
+            <footer>
+                <div className="footer-content">
+                    <div className="footer-column">
+                        <h4>Company Information</h4>
+                        <p>&copy; 2024 [Company Name]. All rights reserved.</p>
+                        <p>Address: 1234 Main St, Anytown, USA</p>
+                        <p>Phone: (123) 456-7890</p>
+                        <p>Email: <a href="mailto:info@company.com">info@company.com</a></p>
+                    </div>
+
+                    <div className="footer-column">
+                        <h4>Quick Links</h4>
+                        <p><a href="#">Home</a></p>
+                        <p><a href="#">About Us</a></p>
+                        <p><a href="#">Services</a></p>
+                        <p><a href="#">Contact</a></p>
+                        <p><a href="#">Privacy Policy</a></p>
+                        <p><a href="#">Terms of Service</a></p>
+                    </div>
+
+                    <div className="footer-column">
+                        <h4>Follow Us</h4>
+                        <p>
+                            <a href="#">Twitter</a> |
+                            <a href="#">LinkedIn</a> |
+                            <a href="#">Facebook</a>
+                        </p>
+                    </div>
+
+                    <div className="footer-column">
+                        <h4>Contact Us</h4>
+                        <p>For inquiries, please reach out to us via email or phone.</p>
+                        <p>We strive to respond to all inquiries within 24 hours.</p>
+                    </div>
+
+                    <div className="footer-column">
+                        <h4>Legal</h4>
+                        <p>This site is operated by [Company Name].</p>
+                        <p>All content and materials are protected by copyright law.</p>
+                        <p>We reserve the right to make changes to this site at any time.</p>
+                        <p>Please review our policies for more information.</p>
+                        <p>Thank you for visiting our website!</p>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    );
+};
+
+export default Footer;
