@@ -1,0 +1,139 @@
+Start of CSS Code
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f3f4f6;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.hero-section {
+    background: linear-gradient(135deg, #6a5acd, #00aaff);
+    padding: 100px 20px;
+    color: white;
+    text-align: center;
+    border-bottom: 5px solid #3498db;
+}
+
+.hero-title {
+    font-size: 56px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.hero-subtitle {
+    font-size: 28px;
+    font-weight: 400;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.hero-paragraph {
+    font-size: 20px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.highlight {
+    color: #e74c3c;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+section {
+    padding: 60px 20px;
+    margin: 5px 0;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.profile-card {
+    text-align: center;
+    margin: 15px;
+    padding: 15px;
+    border: 1px solid #3498db;
+    border-radius: 10px;
+    transition: transform 0.2s;
+}
+
+.profile-card:hover {
+    transform: scale(1.05);
+}
+
+.profile-card img {
+    border-radius: 50%;
+}
+
+.profile-name {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 10px 0 5px;
+}
+
+.profile-role {
+    font-size: 16px;
+    font-style: italic;
+    color: #777;
+}
+
+.image-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+}
+
+.admin-details {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.admin-photo {
+    margin-right: 20px;
+}
+
+.admin-info {
+    max-width: 600px;
+}
+
+.admin-name {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.admin-role {
+    font-size: 20px;
+    font-style: italic;
+    color: #777;
+}
+
+.admin-achievements ul {
+    margin-top: 10px;
+}
+
+.testimonial {
+    background-color: #f9f9f9;
+    border-left: 5px solid #3498db;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.resource-link a {
+    display: block;
+    background: #3498db;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    margin: 5px 0;
+    transition: background 0.3s;
+}
+
+.resource-link a:hover {
+    background: #2980b9;
+}
