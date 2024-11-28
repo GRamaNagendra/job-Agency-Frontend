@@ -17,6 +17,8 @@ import Feedback from './Home/Feedback';
 import NotificationPage from './Notification';
 
 import Notification2 from './Notification2';
+import AdminJobPosting from './Admin/AdminJobposting';
+import NotFound from './NotFound';
 
 
 const App = () => {
@@ -26,7 +28,7 @@ const App = () => {
       <UserProvider>
         <Routes>
         <Route path="/" element={<Layout />} >
-          <Route path="/home2" element={<Home />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/login" element={<GoogleLoginButton />} />
           <Route path="/logout" element={<Logout />} />
           <Route path="/Contact" element={<ContactUs />} />
@@ -66,6 +68,10 @@ const App = () => {
             path="/job-postings/create" 
              element={<JobPosting />} 
           />
+              <Route 
+            path="/job-postings/admin/create" 
+             element={<AdminJobPosting />} 
+          />
           
           <Route 
             path="/job-postings/edit/:id" 
@@ -75,11 +81,20 @@ const App = () => {
             path="/job-postings/apply/:id" 
            element={<JobPosting />} 
           />
+          {/* Route for viewing a job posting (reuse the JobPosting component) */}
+          <Route path="/job-postings/:id" element={<JobPosting />} />
+
+
+
+
           
           {/* Fallback Routes */}
           <Route path="/403" element={<div>403 Forbidden</div>} />
           <Route path="/404" element={<div>Page not found</div>} />
-           <Route path="/n2" element={<Notification2/>} />
+           {/*<Route path="/n2" element={<Notification2/>} />*/}
+           <Route path="/" element={<Home/>} />
+<Route path="/*" element={<NotFound/>} />
+       
           </Route>
         </Routes>
       </UserProvider>

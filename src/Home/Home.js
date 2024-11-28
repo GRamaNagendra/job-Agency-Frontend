@@ -8,10 +8,14 @@ import CompanyInfo from './CompanyInfo';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import AdminSection from './AdminSection';
-import Footer from './Footer';
+
 import JobsHerosection from './JobsHerosection'
 import FeedbackSection from './Feedback';
 import Achievements from './Achivement';
+import JobsHeroSection from './JobsHerosection';
+import ContactForm from '../contact';
+import Teamsection from './Teamsection';
+
 
 
 
@@ -52,12 +56,14 @@ function Home() {
       <CompanyInfo/>
 <AdminSection/>
 
-
-      <JobsHerosection/>
-
+<Teamsection/>
+     
+      <JobsHeroSection/>
+  <ContactForm/>
   <Achievements/>
       <FeedbackSection/>
- <Footer/>
+
+ 
     </div>
   );
 }

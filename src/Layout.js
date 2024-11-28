@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -11,20 +11,25 @@ import {
     faBars,
     faInfoCircle,
     faEnvelope,
-    faCog,
-    faChartLine,
-    faSignOutAlt
+    faSignOutAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css'; // Updated custom CSS for vibrant styles
+import './App.css';
 import axios from 'axios';
+import Footer from './Home/Footer';
 
 function Layout() {
     const [isMobile, setIsMobile] = React.useState(false);
-    const [user, setUser] = React.useState(null); // To store user profile data
+    const [user, setUser] = React.useState(null);
     const [isLoading, setIsLoading] = React.useState(true);
-    
-    const location = useLocation(); // Hook to get the current path
+
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    // Scroll to top on route change
+    React.useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [location]);
 
     // Fetch user data
     React.useEffect(() => {
@@ -33,7 +38,7 @@ function Layout() {
                 const response = await axios.get('http://localhost:8080/profile', {
                     withCredentials: true,
                 });
-                setUser(response.data); // Assuming the API returns user profile data
+                setUser(response.data);
             } catch (err) {
                 console.error('Failed to fetch user data', err);
             } finally {
@@ -50,12 +55,46 @@ function Layout() {
         };
 
         window.addEventListener('resize', handleResize);
-
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    // Helper function to determine if the current link is active
+    const handleLogout = async () => {
+        try {
+            await axios.post('http://localhost:8080/logout', {}, { withCredentials: true });
+            setUser(null);
+            navigate('/login');
+        } catch (err) {
+            console.error('Logout failed', err);
+        }
+    };
+
     const isActive = (path) => location.pathname === path;
+
+    // Auto logout on session timeout
+    React.useEffect(() => {
+        let timeout;
+        const startTimeout = () => {
+            timeout = setTimeout(() => {
+                handleLogout();
+            }, 30 * 60 * 1000); // 30 minutes
+        };
+
+        startTimeout();
+
+        const resetTimeout = () => {
+            clearTimeout(timeout);
+            startTimeout();
+        };
+
+        window.addEventListener('mousemove', resetTimeout);
+        window.addEventListener('keydown', resetTimeout);
+
+        return () => {
+            clearTimeout(timeout);
+            window.removeEventListener('mousemove', resetTimeout);
+            window.removeEventListener('keydown', resetTimeout);
+        };
+    }, []);
 
     return (
         <>
@@ -73,8 +112,8 @@ function Layout() {
                         <Nav className={isMobile ? 'ms-auto mb-2 mb-lg-0' : 'me-auto mb-2 mb-lg-0'}>
                             <Nav.Link
                                 as={Link}
-                                to="/home2"
-                                className={`nav-link-custom ${isActive('/home2') ? 'active' : ''}`}
+                                to="/home"
+                                className={`nav-link-custom ${isActive('/home') ? 'active' : ''}`}
                             >
                                 <FontAwesomeIcon icon={faHome} className="nav-icon" /> Home
                             </Nav.Link>
@@ -106,14 +145,8 @@ function Layout() {
                                 <NavDropdown.Item as={Link} to="/admin">
                                     <FontAwesomeIcon icon={faTachometerAlt} className="nav-icon" /> Admin Dashboard
                                 </NavDropdown.Item>
-                                <NavDropdown.Item as={Link} to="/settings">
-                                    <FontAwesomeIcon icon={faCog} className="nav-icon" /> Settings
-                                </NavDropdown.Item>
-                                <NavDropdown.Item as={Link} to="/reports">
-                                    <FontAwesomeIcon icon={faChartLine} className="nav-icon" /> Reports
-                                </NavDropdown.Item>
                                 <NavDropdown.Divider />
-                                <NavDropdown.Item as={Link} to="/logout">
+                                <NavDropdown.Item onClick={handleLogout}>
                                     <FontAwesomeIcon icon={faSignOutAlt} className="nav-icon" /> Sign Out
                                 </NavDropdown.Item>
                             </NavDropdown>
@@ -130,10 +163,10 @@ function Layout() {
                                     </Nav.Link>
                                     <Link to="/profile">
                                         <img
-                                            src={user.profilePicture || 'path/to/default/profile-pic.png'} // Fallback image
+                                            src={user.profilePicture || 'path/to/default/profile-pic.png'}
                                             alt="Profile"
                                             className="navbar-profile-pic"
-                                            onError={(e) => (e.target.src = 'path/to/default/profile-pic.png')} // Handle image error
+                                            onError={(e) => (e.target.src = 'path/to/default/profile-pic.png')}
                                         />
                                     </Link>
                                 </>
@@ -147,9 +180,9 @@ function Layout() {
                 </Container>
             </Navbar>
 
-            {/* Outlet for rendering nested routes */}
             <div className="content">
                 <Outlet />
+                <Footer />
             </div>
         </>
     );

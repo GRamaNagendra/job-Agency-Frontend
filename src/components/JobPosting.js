@@ -1,252 +1,249 @@
-
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useParams, useNavigate, Link } from 'react-router-dom';
-import './JobPosting.css';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useParams, useNavigate } from "react-router-dom";
+import "aos/dist/aos.css";
+import AOS from "aos";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSave } from "@fortawesome/free-solid-svg-icons";
 
 const JobPosting = () => {
-  const { id } = useParams();
+  const { id } = useParams();  // Get the id from the URL
   const navigate = useNavigate();
-  const [jobPosting, setJobPosting] = useState(null);
-  const [error, setError] = useState({
-    title: '',
-    description: '',
-    companyName: '',
-    category: '', // Add category error state
-  });
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [companyName, setCompanyName] = useState('');
-  const [location, setLocation] = useState('');
-  const [salary, setSalary] = useState('');
-  const [category, setCategory] = useState(''); // Add category state
   const [updateStatus, setUpdateStatus] = useState(null);
-  const isEditing = !!id;
+  const [errors, setErrors] = useState({});
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    companyName: "",
+    location: "",
+    salary: "",
+    category: "",
+  });
+  const [jobViewData, setJobViewData] = useState(null);  // For viewing job post details
+  const [loading, setLoading] = useState(false);
+
+  const isEditing = window.location.pathname.includes("/edit/");  // Detect if it's editing mode
+  const isCreating = window.location.pathname.includes("/create");  // Detect if it's creating mode
+  const isViewing = !isEditing && !isCreating;  // Viewing mode (when no edit or create path)
 
   useEffect(() => {
-    const fetchJobPosting = async () => {
-      if (isEditing) {
-        try {
-          const response = await axios.get(`http://localhost:8080/job-postings/${id}`, {
-            withCredentials: true,
-          });
+    AOS.init({ duration: 1000 });
+
+    if (isEditing || isViewing) {
+      setLoading(true);
+      axios
+        .get(`http://localhost:8080/job-postings/${id}`, { withCredentials: true })
+        .then((response) => {
           const data = response.data.data;
-          setJobPosting(data);
-          setTitle(data.title || '');
-          setDescription(data.description || '');
-          setCompanyName(data.companyName || '');
-          setLocation(data.location || '');
-          setSalary(data.salary || '');
-          setCategory(data.category || ''); // Set the category if available
-        } catch (err) {
-          setError({ ...error, general: 'Failed to load job posting.' });
-          console.error(err);
-        }
-      }
-    };
-
-    fetchJobPosting();
-  }, [isEditing, id]);
-
-  // Real-time validation for each input
-  const validateInput = () => {
-    const newError = { title: '', description: '', companyName: '', category: '' }; // Add category validation
-
-    if (!title) {
-      newError.title = 'Title is required.';
-    } else if (title.length < 3) {
-      newError.title = 'Title must be at least 3 characters long.';
+          setFormData({ ...formData, ...data });
+          setJobViewData(data);  // Set data for viewing job post
+        })
+        .catch(() => {
+          setErrors((prev) => ({ ...prev, general: "Failed to load job posting." }));
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     }
+  }, [id, isEditing, isViewing]);
 
-    if (!description) {
-      newError.description = 'Description is required.';
-    } else if (description.length < 10) {
-      newError.description = 'Description must be at least 10 characters long.';
-    }
-
-    if (!companyName) {
-      newError.companyName = 'Company Name is required.';
-    }
-
-    if (!category) { // Validate category
-      newError.category = 'Category is required.';
-    }
-
-    setError(newError);
+  const validateFields = () => {
+    const newErrors = {};
+    if (!formData.title) newErrors.title = "Title is required.";
+    if (!formData.description) newErrors.description = "Description is required.";
+    if (!formData.companyName) newErrors.companyName = "Company name is required.";
+    if (!formData.category) newErrors.category = "Category is required.";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSave = async () => {
-    validateInput();
+    if (!validateFields()) return;
 
-    if (error.title || error.description || error.companyName || error.category) {
-      return; // Prevent saving if there are validation errors
-    }
+    const payload = { ...formData, live: false }; // Ensure the job is not live for now
 
     try {
-      const jobPostingData = { title, description, companyName, location, salary, category }; // Include category
-
       if (isEditing) {
-        await axios.put(`http://localhost:8080/job-postings/${id}`, jobPostingData, {
+        // Update job posting
+        await axios.put(`http://localhost:8080/job-postings/${id}`, payload, {
           withCredentials: true,
         });
-        setUpdateStatus('Job posting updated successfully.');
+        setUpdateStatus("Job posting updated successfully.");
       } else {
-        await axios.post('http://localhost:8080/job-postings', jobPostingData, {
+        // Create a new job posting
+        await axios.post("http://localhost:8080/job-postings/user/create", payload, {
           withCredentials: true,
         });
-        setUpdateStatus('Job posting created successfully.');
+        setUpdateStatus("Job posting created successfully, but it is not live.");
       }
-      setError({ title: '', description: '', companyName: '', category: '' }); // Clear errors
-    } catch (err) {
-      setError({ ...error, general: 'Failed to save job posting.' });
-      console.error(err);
+      navigate("/job-postings");
+    } catch (error) {
+      setErrors((prev) => ({
+        ...prev,
+        general: "An error occurred while saving the job posting.",
+      }));
     }
   };
 
-  const handleDelete = async () => {
-    const confirmDelete = window.confirm('Are you sure you want to delete this job posting?');
-    if (!confirmDelete) return;
-
-    try {
-      await axios.delete(`http://localhost:8080/job-postings/${id}`, {
-        withCredentials: true,
-      });
-      setUpdateStatus('Job posting deleted successfully.');
-      setError({ title: '', description: '', companyName: '', category: '' });
-      navigate('/job-postings');
-    } catch (err) {
-      setError({ ...error, general: 'Failed to delete job posting.' });
-      console.error(err);
-    }
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
   };
 
-  const handleApply = async () => {
-    const applicantEmail = prompt('Enter your email address to apply:');
-    if (!applicantEmail) return;
+  const inputClass = (field) =>
+    errors[field] ? "border-red-500" : "border-gray-300";
 
-    try {
-      await axios.post(
-        `http://localhost:8080/job-postings/${id}/apply`,
-        { email: applicantEmail },
-        {
-          headers: { 'Content-Type': 'application/json' },
-          withCredentials: true,
-        }
-      );
-      alert('Application submitted successfully.');
-    } catch (err) {
-      alert('Failed to submit application.');
-      console.error(err);
-    }
+  const renderJobView = () => {
+    if (loading) return <p>Loading job details...</p>;
+    if (!jobViewData) return <p>No job details available.</p>;
+
+    return (
+      <div className="p-6 bg-white shadow-md rounded-md mt-8">
+        <h3 className="text-2xl font-semibold">{jobViewData.title}</h3>
+        <p className="text-gray-700">
+          <strong>Company:</strong> {jobViewData.companyName}
+        </p>
+        <p className="text-gray-700">
+          <strong>Location:</strong> {jobViewData.location}
+        </p>
+        <p className="text-gray-700">
+          <strong>Salary:</strong> {jobViewData.salary ? `₹${jobViewData.salary}` : "Not specified"}
+        </p>
+        <p className="text-gray-700">
+          <strong>Category:</strong> {jobViewData.category || "Not specified"}
+        </p>
+        <p className="text-gray-700">
+          <strong>Description:</strong> {jobViewData.description}
+        </p>
+      </div>
+    );
   };
-
-  // Handle input changes and validate
-  const handleInputChange = (e, setter) => {
-    setter(e.target.value);
-    validateInput(); // Validate input on change
-  };
-
-  const getInputClass = (field) => {
-    return error[field] ? 'input-field error' : 'input-field'; // Add error class if there's an error
-  };
-
-  if (error.general) {
-    return <div className="error-message">{error.general}</div>;
-  }
-
-  if (!jobPosting && isEditing) {
-    return <div className="loading">Loading...</div>;
-  }
 
   return (
-    <div className="job-posting-container">
-      <h2 className="job-posting-header">{isEditing ? 'Edit Job Posting' : 'Create Job Posting'}</h2>
-      <div className="validation-errors">
-        {error.title && <div className="validation-error">{error.title}</div>}
-        {error.description && <div className="validation-error">{error.description}</div>}
-        {error.companyName && <div className="validation-error">{error.companyName}</div>}
-        {error.category && <div className="validation-error">{error.category}</div>} {/* Display category error */}
-      </div>
-      <div className="job-posting-form">
-        <label>
-          Title:
-          <input
-            type="text"
-            className={getInputClass('title')}
-            placeholder="Enter job title"
-            value={title}
-            onChange={(e) => handleInputChange(e, setTitle)}
-            required
-          />
-        </label>
-        <label>
-          Description:
-          <textarea
-            className={getInputClass('description')}
-            placeholder="Enter job description"
-            value={description}
-            onChange={(e) => handleInputChange(e, setDescription)}
-            required
-          />
-        </label>
-        <label>
-          Company Name:
-          <input
-            type="text"
-            className={getInputClass('companyName')}
-            placeholder="Enter company name"
-            value={companyName}
-            onChange={(e) => handleInputChange(e, setCompanyName)}
-            required
-          />
-        </label>
-        <label>
-          Location:
-          <input
-            type="text"
-            className="input-field"
-            placeholder="Enter job location"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-          />
-        </label>
-        <label>
-          Salary:
-          <input
-            type="number"
-            className="input-field"
-            placeholder="Enter job salary"
-            value={salary}
-            onChange={(e) => setSalary(e.target.value)}
-          />
-        </label>
-        <label>
-          Category:
-          <input
-            type="text"
-            className={getInputClass('category')}
-            placeholder="Enter job category"
-            value={category}
-            onChange={(e) => handleInputChange(e, setCategory)}
-            required
-          />
-        </label>
-        <button onClick={handleSave} className="save-button">
-          {isEditing ? 'Update' : 'Create'} Job Posting
-        </button>
-        {isEditing && (
-          <>
-            <button onClick={handleDelete} className="delete-button">
-              Delete Job Posting
-            </button>
-            <button onClick={handleApply} className="apply-button">
-              Apply for Job
-            </button>
-            
-          </>
-        )}
-        {updateStatus && <p className="status-message">{updateStatus}</p>}
-      </div>
+    <div
+      className="container mx-auto px-6 py-10 bg-gradient-to-br from-gray-50 to-blue-50 rounded-lg shadow-lg"
+      data-aos="fade-up"
+    >
+      <h2 className="text-3xl font-bold text-center mb-6">
+        {isEditing ? "Edit Job Posting" : isCreating ? "Create Job Posting" : "Job Posting Details"}
+      </h2>
+
+      {/* Conditionally render form or job post details based on mode */}
+      {isEditing || isCreating ? (
+        <form className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {errors.general && (
+            <div className="col-span-2 text-red-500 text-center">{errors.general}</div>
+          )}
+
+          <label>
+            Job Title:
+            <input
+              type="text"
+              name="title"
+              value={formData.title}
+              onChange={handleChange}
+              className={`w-full p-3 rounded-md border focus:ring focus:ring-blue-300 ${inputClass(
+                "title"
+              )}`}
+              placeholder="Enter job title"
+            />
+          </label>
+
+          <label>
+            Company Name:
+            <input
+              type="text"
+              name="companyName"
+              value={formData.companyName}
+              onChange={handleChange}
+              className={`w-full p-3 rounded-md border focus:ring focus:ring-blue-300 ${inputClass(
+                "companyName"
+              )}`}
+              placeholder="Enter company name"
+            />
+          </label>
+
+          <label>
+            Description:
+            <textarea
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              className={`w-full p-3 rounded-md border focus:ring focus:ring-blue-300 ${inputClass(
+                "description"
+              )}`}
+              placeholder="Enter job description"
+            />
+          </label>
+
+          <label>
+            Location:
+            <input
+              type="text"
+              name="location"
+              value={formData.location}
+              onChange={handleChange}
+              className="w-full p-3 rounded-md border focus:ring focus:ring-blue-300"
+              placeholder="Enter location"
+            />
+          </label>
+
+          <label>
+            Salary:
+            <input
+              type="number"
+              name="salary"
+              value={formData.salary}
+              onChange={handleChange}
+              className="w-full p-3 rounded-md border focus:ring focus:ring-blue-300"
+              placeholder="Enter salary"
+            />
+          </label>
+
+          <label>
+            Category:
+            <select
+              name="category"
+              value={formData.category}
+              onChange={handleChange}
+              className={`w-full p-3 rounded-md border focus:ring focus:ring-blue-300 ${inputClass(
+                "category"
+              )}`}
+            >
+              <option value="">Select category</option>
+              <option value="Full-Time">Full-Time</option>
+              <option value="Part-Time">Part-Time</option>
+              <option value="Internship">Internship</option>
+              <option value="IT">IT</option>
+              <option value="Finance">Finance</option>
+              <option value="Marketing">Marketing</option>
+              <option value="HR">HR</option>
+            </select>
+          </label>
+        </form>
+      ) : (
+        // Only show job post details if not in editing or creating mode
+        renderJobView()
+      )}
+
+      {(isEditing || isCreating) && (
+        <div className="flex justify-center gap-4 mt-6">
+          <button
+            onClick={handleSave}
+            className="px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+          >
+            <FontAwesomeIcon icon={faSave} className="mr-2" />
+            Save Job Posting
+          </button>
+        </div>
+      )}
+
+      {updateStatus && (
+        <div className="mt-4 text-green-500 text-center">{updateStatus}</div>
+      )}
     </div>
   );
 };

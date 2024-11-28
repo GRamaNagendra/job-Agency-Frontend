@@ -71,8 +71,11 @@ const FeedbackSection = () => {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="bg-white rounded-2xl shadow-lg p-8 h-full"
               >
-                <Quote className="w-10 h-10 text-blue-600 mb-6" />
-                <p className="text-gray-600 mb-6">{item.message}</p>
+                <Quote className="w-10 h-10 text-blue-600 mb-6 " />
+                <p className="text-gray-900 font-medium text-lg md:text-xl leading-relaxed tracking-wide mb-8 ml-8">
+  {item.message}
+</p>
+
                 <div className="flex items-center gap-4">
                   <img
                     src={item.user.profilePicture || "https://via.placeholder.com/50"}
@@ -80,19 +83,17 @@ const FeedbackSection = () => {
                     className="w-12 h-12 rounded-full object-cover"
                   />
                   <div>
-                    <h3 className="font-semibold text-gray-900">{item.user.username}</h3>
+                  <div>
+  <h3 className="font-extrabold text-indigo-700 text-xl md:text-xl leading-snug tracking-wider">
+    {item.user.username}
+  </h3>
+</div>
+
                     {/* Add user role or company if needed */}
                     {/* <p className="text-sm text-gray-500">{item.user.role}</p> */}
                   </div>
                 </div>
-                {/* Show rating stars */}
-                {item.rating && (
-                  <div className="flex gap-1 mt-4">
-                    {[...Array(item.rating)].map((_, i) => (
-                      <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
-                    ))}
-                  </div>
-                )}
+              
               </motion.div>
             </SwiperSlide>
           ))}

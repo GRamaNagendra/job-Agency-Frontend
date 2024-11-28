@@ -42,6 +42,7 @@ body {
 .content1 {
   display: flex;
   gap: 30px;
+  flex-wrap: wrap;
 }
 
 /* Filter Section */
@@ -52,6 +53,11 @@ body {
   border-radius: 12px;
   border: 1px solid #c8e6c9; /* Softer green border */
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0; /* Stick it to the top of the page */
+  z-index: 10; /* Ensures it stays above other content */
+  max-height: 100vh; /* Prevents the filter from growing too large */
+  overflow-y: auto; /* Allows scrolling inside the filter section if content exceeds the viewport */
 }
 
 /* Filter Labels */
@@ -59,8 +65,7 @@ body {
   font-size: 1.6em;
   font-weight: 700;
   color: #e6d114; /* Stronger label color */
-  margin:25px 0px 30px 20px;
-
+  margin: 25px 0px 30px 20px;
 }
 
 /* Checkbox Styling */
@@ -72,17 +77,14 @@ body {
 
 .checkbox {
   margin-right: 15px;
-  margin-left:50px;
+  margin-left: 50px;
   accent-color: #6209cf; /* Vibrant green accent */
- 
 }
 
-
 input[type="checkbox"] {
-  width: 20px;
-  height: 20px;
-  appearance: none;
-  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+
   background-color: #e0e0e0;
   border: 1px solid #ccc;
   border-radius: 3px;
@@ -106,7 +108,6 @@ input[type="checkbox"] {
   background-color: #ffffff; /* Soft green background */
   color: #3c3c3c; /* Consistent text color */ 
   transition: border-color 0.3s, box-shadow 0.3s;
- 
 }
 
 .search-bar::placeholder {
@@ -149,7 +150,7 @@ input[type="checkbox"] {
 .salary-filter label {
   font-weight: 700;
   margin-top: 30px;
-margin-left:20px;
+  margin-left: 20px;
   font-size: 1.2em;
   color: #ced6d9; /* Vibrant label color */
   margin-bottom: 10px;
@@ -213,7 +214,6 @@ margin-left:20px;
   color: #090909; /* Softer value color */
 }
 
-
 /* Card action buttons container */
 .action-buttons {
   position: absolute;
@@ -229,51 +229,49 @@ margin-left:20px;
   color: rgb(230, 23, 23);
   border: none;
   font-weight: 800;
-
   cursor: pointer;
   transition: background-color 0.3s, transform 0.3s;
   font-size: 1.5em; 
-  background-color: transparent; /* Ensures the background is clear */
-  border-radius: 50%; /* Optional, for rounded buttons */
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Optional, for some button shadow */
+  background-color: transparent;
+  border-radius: 50%;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
 /* Hover effects for better UX */
 .copy-link-button:hover,
 .share-button:hover {
-  transform: scale(1.1); /* Slight scaling effect */
+  transform: scale(1.1); 
   background-color: rgba(230, 23, 23, 0.1);
 }
 
-
 .apply-button {
-  background-color: #f94144; /* Distinct color for apply button */
+  background-color: #f94144;
   color: white;
   border: none;
   border-radius: 10px;
   padding: 12px 20px;
-  font-weight: 700; /* Bold font for emphasis */
+  font-weight: 700;
   cursor: pointer;
   transition: background-color 0.3s, transform 0.3s;
-  font-size: 1em; /* Font size */
+  font-size: 1em;
 }
 
 .copy-link-button:hover {
-  background-color: #f9844a; /* Hover color for copy link button */
+  background-color: #f9844a;
 }
 
 .share-button:hover {
-  background-color: #66bb6a; /* Hover color for share button */
+  background-color: #66bb6a;
 }
 
 .apply-button:hover {
-  background-color: #d00000; /* Hover color for apply button */
+  background-color: #d00000;
 }
 
 /* Edit and Apply Links */
 .edit-job-link,
 .apply-job-link {
-  color: #388e3c; /* Vibrant link color */
+  color: #388e3c;
   font-weight: 700;
   text-decoration: none;
   padding: 6px 12px;
@@ -284,7 +282,7 @@ margin-left:20px;
 .edit-job-link:hover,
 .apply-job-link:hover {
   color: #ffffff;
-  background-color: #2e7d32; /* Darker background on hover */
+  background-color: #2e7d32;
 }
 
 /* Pagination */
@@ -295,7 +293,7 @@ margin-left:20px;
 }
 
 .pagination-button {
-  background-color: #388e3c; /* Vibrant button color */
+  background-color: #388e3c;
   color: white;
   border: none;
   border-radius: 8px;
@@ -306,9 +304,32 @@ margin-left:20px;
 }
 
 .pagination-button:hover {
-  background-color: #2e7d32; /* Darker button on hover */
+  background-color: #2e7d32;
 }
 
 .active {
-  background-color: #2e7d32; /* Active button color */
+  background-color: #2e7d32;
+}
+
+/* Responsive General Styles */
+@media (max-width: 768px) {
+  .job-posting-page {
+    padding: 20px;
+  }
+
+  .content1 {
+    flex-direction: column;
+  }
+
+  .filters-section,
+  .job-posting-list {
+    flex: 1 1 100%;
+  }
+
+  .job-grid {
+    grid-template-columns: 1fr;
+  }
+  .filters-section {
+    position: relative; /* Removes sticky effect on smaller screens */
+  }
 }
